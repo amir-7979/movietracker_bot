@@ -25,7 +25,7 @@ async def show_search_data_item(client: TelegramClient, chat, response, buttons)
     for item in response:
         try:
             search_items.append(
-                [Button.text(f"{item.rawTitle} | {item.type} | {item.rating.imdb} | {item.year}", resize=True)])
+                [Button.text(f"{item.rawTitle} | {item.type2} | {item.rating.imdb} | {item.year}", resize=True)])
         except:
             print("An exception occurred")
     if page.page_number == 1:

@@ -72,7 +72,7 @@ class Rating:
 @dataclass
 class TelBotItem:
     s_id: str
-    type: str
+    type2: str
     rawTitle: str
     posters: List[Poster]
     year: str
@@ -97,7 +97,7 @@ class TelBotItem:
         return TelBotItem(s_id, _type, _rawTitle, _posters, _year, _premiered, _rating, _summary, _latest_data, _genres)
 
     def to_string(self) -> str:
-        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type} \n\n🎖IMDb: { self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[github page](https://github.com/ashkan-esz/downloader_api)"
+        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type2} \n\n🎖IMDb: { self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[github page](https://github.com/ashkan-esz/downloader_api)"
 
 
     def get_url(self) -> str:
