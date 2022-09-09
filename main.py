@@ -1,17 +1,19 @@
-import time, threading, re, os
+import os
+import re
+import threading
+import time
+
 from dotenv import load_dotenv
 from telethon.sync import TelegramClient, events
 from telethon.tl.functions.contacts import ResolveUsernameRequest
+
 from api_requests.get_movies import get_news, get_updates, get_tops_by_likes, get_top_movies, get_top_series, \
     get_search, get_coming_soon, get_in_theaters, get_box_office, get_anime_top_airing, get_anime_top_comingSoon, \
     get_popular, get_movie
-from consts import State, get_keyboard_button, page
+from consts import State, get_keyboard_button
 from view_model.view_model import show_low_data_item, show_search_data_item
-from telethon.tl.functions.channels import JoinChannelRequest
 
-
-
-load_dotenv('var.env')
+load_dotenv('scratch.env')
 api_id = int(os.getenv('API_ID'))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
