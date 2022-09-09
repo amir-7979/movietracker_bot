@@ -12,9 +12,9 @@ from telethon.tl.functions.channels import JoinChannelRequest
 
 
 load_dotenv('var.env')
-api_id = int(os.getenv('API_ID'))
-api_hash = os.getenv("API_HASH")
-bot_token = os.getenv("BOT_TOKEN")
+api_id = int(${{ API_ID }})
+api_hash = ${{ API_HASH }}
+bot_token = ${{ BOT_TOKEN }}
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 is_searching = False
 state = State.main
