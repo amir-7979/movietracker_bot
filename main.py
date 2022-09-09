@@ -3,7 +3,7 @@ import re
 import threading
 import time
 
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from telethon.sync import TelegramClient, events
 from telethon.tl.functions.contacts import ResolveUsernameRequest
 
@@ -13,7 +13,7 @@ from api_requests.get_movies import get_news, get_updates, get_tops_by_likes, ge
 from consts import State, get_keyboard_button
 from view_model.view_model import show_low_data_item, show_search_data_item
 
-load_dotenv('scratch.env')
+#load_dotenv('scratch.env')
 api_id = 19110656
 api_hash = "4dc18fd5f2a138e06cb6c6979d1c21df"
 bot_token = "5394497257:AAGC6mmWGDs4vv4mn0sPp8ZJeJfrrsnbY34"
