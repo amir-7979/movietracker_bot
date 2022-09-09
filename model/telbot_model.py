@@ -70,7 +70,7 @@ class Rating:
 
 
 @dataclass
-class LowDataItem:
+class TelBotItem:
     s_id: str
     type: str
     rawTitle: str
@@ -83,7 +83,7 @@ class LowDataItem:
     genres: List[str]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'LowDataItem':
+    def from_dict(obj: Any) -> 'TelBotItem':
         s_id = str(obj.get("_id"))
         _type = str(obj.get("type"))
         _rawTitle = str(obj.get("rawTitle"))
@@ -94,7 +94,7 @@ class LowDataItem:
         _summary = Summary.from_dict(obj.get('summary'))
         _latest_data = LatestData.from_dict(obj.get('latestData'))
         _genres = [y for y in obj.get("genres")]
-        return LowDataItem(s_id, _type, _rawTitle, _posters, _year, _premiered, _rating, _summary, _latest_data, _genres)
+        return TelBotItem(s_id, _type, _rawTitle, _posters, _year, _premiered, _rating, _summary, _latest_data, _genres)
 
     def to_string(self) -> str:
         return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type} \n\n🎖IMDb: { self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[github page](https://github.com/ashkan-esz/downloader_api)"
