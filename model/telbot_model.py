@@ -2,8 +2,6 @@ from typing import List
 from typing import Any
 from dataclasses import dataclass
 
-from main import bot_token, client
-
 
 @dataclass
 class Poster:
@@ -99,7 +97,7 @@ class TelBotItem:
         return TelBotItem(s_id, _type, _rawTitle, _posters, _year, _premiered, _rating, _summary, _latest_data, _genres)
 
     def to_string(self) -> str:
-        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type2} \n\n🎖IMDb: { self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[download](https://api.telegram.org/bot<{bot_token}>/sendMessage?chat_id=<{client.get_peer_id()}>&text=Hello%20World)\n\n[github page](https://github.com/ashkan-esz/downloader_api)"
+        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type2} \n\n🎖IMDb: { self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[download](https://api.telegram.org/bot<>/sendMessage?chat_id=<>&text=Hello%20World)\n\n[github page](https://github.com/ashkan-esz/downloader_api)"
 
 
     def get_url(self) -> str:

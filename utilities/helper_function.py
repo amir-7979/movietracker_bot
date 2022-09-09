@@ -1,6 +1,9 @@
 import utilities.variables
-from api_requests.movie_request import *
+
 import utilities.classes
+from api_requests.movie_request import get_news, get_updates, get_tops_by_likes, get_top_movies, get_top_series, \
+    get_coming_soon, get_in_theaters, get_box_office, get_anime_top_airing, get_anime_top_comingSoon, get_popular, \
+    get_search
 
 
 def get_keyboard_button(enum):
