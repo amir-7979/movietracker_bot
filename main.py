@@ -14,14 +14,14 @@ from consts import State, get_keyboard_button
 from view_model.view_model import show_low_data_item, show_search_data_item
 
 load_dotenv('scratch.env')
-api_id = int(os.getenv('API_ID'))
-api_hash = os.getenv("API_HASH")
-bot_token = os.getenv("BOT_TOKEN")
+api_id = 19110656
+api_hash = "4dc18fd5f2a138e06cb6c6979d1c21df"
+bot_token = "5394497257:AAGC6mmWGDs4vv4mn0sPp8ZJeJfrrsnbY34"
 client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
 is_searching = False
 state = State.main
 glob_text = -1
-WAIT_SECONDS = 10
+WAIT_SECONDS = 240
 
 
 def foo():
