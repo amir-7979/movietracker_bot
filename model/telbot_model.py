@@ -1,5 +1,4 @@
-from typing import List
-from typing import Any
+from typing import List, Any
 from dataclasses import dataclass
 
 
@@ -72,7 +71,7 @@ class Rating:
 @dataclass
 class TelBotItem:
     s_id: str
-    type2: str
+    type: str
     rawTitle: str
     posters: List[Poster]
     year: str
@@ -84,6 +83,7 @@ class TelBotItem:
 
     @staticmethod
     def from_dict(obj: Any) -> 'TelBotItem':
+        print(type(obj))
         s_id = str(obj.get("_id"))
         _type = str(obj.get("type"))
         _rawTitle = str(obj.get("rawTitle"))
@@ -96,9 +96,9 @@ class TelBotItem:
         _genres = [y for y in obj.get("genres")]
         return TelBotItem(s_id, _type, _rawTitle, _posters, _year, _premiered, _rating, _summary, _latest_data, _genres)
 
-    def to_string(self) -> str:
-        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type2} \n\n🎖IMDb: { self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[download](https://api.telegram.org/bot<>/sendMessage?chat_id=<>&text=Hello%20World)\n\n[github page](https://github.com/ashkan-esz/downloader_api)"
-
+    def to_string(self):
+        url = f"https://t.me/MovieTracker1bot?start={self.s_id}"
+        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type} \n\n🎖IMDb: {self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[download]({url})\n\n[github](https://github.com/ashkan-esz/downloader_api)"
 
     def get_url(self) -> str:
         return self.posters[0].url

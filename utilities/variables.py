@@ -21,3 +21,5 @@ start_buttons = [
 news_button = [Button.text('🏠 Home', resize=True), Button.text('More ...', resize=True)]
 search_button = [Button.text('🔙', resize=True), Button.text('🏠 Home', resize=True),
                  Button.text('More ...', resize=True)]
+
+channel_button = [Button.url('Movie Tracker', url='https://t.me/movie_tracker1')]

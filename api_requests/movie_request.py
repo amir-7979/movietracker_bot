@@ -1,5 +1,7 @@
 import requests
 import datetime
+
+from model.dlink_model import DLinkItem
 from model.telbot_model import TelBotItem
 
 
@@ -97,6 +99,18 @@ async def get_movie(title: str, types: str, imdb_scores: str, years: str) -> Tel
 
 async def get_news_with_date(i: int) -> list[TelBotItem]:
     response = requests.get(
+        f'https://downloader-node-api.herokuapp.com/movies/newsWithDate/{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}/movie_serial-anime_serial-anime_movie/telbot/0-10/0-10/{i}?testUser=true')
+    return [TelBotItem.from_dict(y) for y in response.json()['data']]
+
+
+async def get_updates_with_date(i: int) -> list[TelBotItem]:
+    response = requests.get(
         f'https://downloader-node-api.herokuapp.com/movies/updatesWithDate/{datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}/movie_serial-anime_serial-anime_movie/telbot/0-10/0-10/{i}?testUser=true')
     return [TelBotItem.from_dict(y) for y in response.json()['data']]
 
+
+async def get_links(movie_id: str) -> DLinkItem:
+    response = requests.get(
+        f'https://downloader-node-api.herokuapp.com/movies/searchByID/{movie_id}/dlink?testUser=true')
+    print(response.url)
+    return DLinkItem.from_dict(response.json()['data'])

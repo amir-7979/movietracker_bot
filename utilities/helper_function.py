@@ -1,5 +1,8 @@
-import utilities.variables
+from telethon.tl.functions.channels import GetParticipantsRequest
+from telethon.tl.types import InputChannel, ChannelParticipantsRecent
+from telethon.tl.types.channels import ChannelParticipants
 
+import utilities.variables
 import utilities.classes
 from api_requests.movie_request import get_news, get_updates, get_tops_by_likes, get_top_movies, get_top_series, \
     get_coming_soon, get_in_theaters, get_box_office, get_anime_top_airing, get_anime_top_comingSoon, get_popular, \
@@ -46,3 +49,23 @@ def func_list(i: int):
         return get_popular(utilities.variables.page.page_number)
     elif i == 11:
         return get_search(utilities.variables.page.search_name, utilities.variables.page.page_number)
+
+
+async def welcome(client, chat, event):
+    channel = await client.get_entity('t.me/movie_tracker1')
+    result: ChannelParticipants = await client(
+        GetParticipantsRequest(InputChannel(channel.id, channel.access_hash), filter=ChannelParticipantsRecent(),
+                               limit=1000000, offset=0, hash=0))
+    sender = event.original_update.message.peer_id.user_id
+    subscribers = (o.user_id for o in result.participants)
+    if sender in subscribers:
+        print('true')
+        await client.send_message(chat.id, 'Welcome to MovieTracker bot',
+                                  buttons=click_keyboard_button(False, utilities.classes.State.main))
+    else:
+        print('false')
+        await client.send_message(chat.id, 'Hi!\nPlease join our channel to use bot',
+                                  buttons=utilities.variables.channel_button)
+
+
+
