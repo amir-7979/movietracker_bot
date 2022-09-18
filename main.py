@@ -63,7 +63,6 @@ async def rec_commands(event: NewMessage.Event):
         # todo check user every dau that joined channel or not
         response = await get_links(split[1])
         await show_download_link_item(client, chat, response)
-        # print(response)
 
 
 @client.on(events.CallbackQuery())
@@ -78,7 +77,6 @@ async def handler(event: CallbackQuery.Event):
     elif len(list) == 3:
         response = await get_links(list[0])
         await get_serial_link(client, chat, event.original_update.msg_id, response, list[1], list[2])
-
     return
 
 
