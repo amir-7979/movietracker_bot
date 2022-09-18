@@ -112,5 +112,4 @@ async def get_updates_with_date(i: int) -> list[TelBotItem]:
 async def get_links(movie_id: str) -> DLinkItem:
     response = requests.get(
         f'https://downloader-node-api.herokuapp.com/movies/searchByID/{movie_id}/dlink?testUser=true')
-    print(response.url)
     return DLinkItem.from_dict(response.json()['data'])

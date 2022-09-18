@@ -73,8 +73,6 @@ async def handler(event: CallbackQuery.Event):
     data: str = re.findall(r"'([^']*)'", data)[0]
     list = data.split('-')
     if len(list) == 2:
-        print(list[0], list[1])
-        print(event)
         response = await get_links(list[0])
         await get_serial_episode(client, chat, event.original_update.msg_id, response, list[1])
     elif len(list) == 3:

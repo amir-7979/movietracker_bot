@@ -59,11 +59,9 @@ async def welcome(client, chat, event):
     sender = event.original_update.message.peer_id.user_id
     subscribers = (o.user_id for o in result.participants)
     if sender in subscribers:
-        print('true')
         await client.send_message(chat.id, 'Welcome to MovieTracker bot',
                                   buttons=click_keyboard_button(False, utilities.classes.State.main))
     else:
-        print('false')
         await client.send_message(chat.id, 'Hi!\nPlease join our channel to use bot',
                                   buttons=utilities.variables.channel_button)
 

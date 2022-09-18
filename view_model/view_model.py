@@ -14,7 +14,7 @@ async def show_low_data_item(client: TelegramClient, chat, response, buttons):
         try:
             await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
                                       buttons=buttons)
-            time.sleep(0.25)
+            time.sleep(0.4)
         except:
             print("An exception occurred")
 

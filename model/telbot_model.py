@@ -83,7 +83,6 @@ class TelBotItem:
 
     @staticmethod
     def from_dict(obj: Any) -> 'TelBotItem':
-        print(type(obj))
         s_id = str(obj.get("_id"))
         _type = str(obj.get("type"))
         _rawTitle = str(obj.get("rawTitle"))
