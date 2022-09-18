@@ -1,3 +1,4 @@
 # pythonBot
-a telegram bot for Movie Tracker project \n
+a telegram bot for Movie Tracker project 
+
 https://t.me/MovieTracker1bot
