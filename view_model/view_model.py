@@ -123,6 +123,7 @@ async def get_serial_link(client, chat, msg_id, response: DLinkItem, season_numb
                 link_items.append(Button.url(f"{item.info}", url=item.link))
         except:
             print("An exception occurred")
+
     i = 0
     new_link_items = []
     if len(link_items) < 3:
