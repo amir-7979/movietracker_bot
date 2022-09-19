@@ -71,10 +71,21 @@ async def get_serial_season(chat, client, response):
                     Button.inline(text=f"season {item.seasonNumber}", data=f"{response.id}-{item.seasonNumber}"))
         except:
             print("An exception occurred")
+
+    i = 0
+    new_link_items: list = []
+    if len(link_items) < 5:
+        new_link_items = link_items
+    else:
+        while i < len(link_items) and i + 5 <= len(link_items):
+            new_link_items.append(
+                [link_items[i], link_items[i + 1], link_items[i + 2], link_items[i + 3], link_items[i + 4]])
+            i += 5
+        new_link_items.extend([link_items[i:]])
     if len(link_items) == 0:
         return await client.send_message(chat.id, 'There is no link to show!')
     else:
-        return await client.send_message(chat.id, response.title.capitalize(), buttons=link_items)
+        return await client.send_message(chat.id, response.title.capitalize(), buttons=new_link_items)
 
 
 async def get_serial_episode(client, chat, msg_id, response: DLinkItem, season_number):
@@ -91,21 +102,20 @@ async def get_serial_episode(client, chat, msg_id, response: DLinkItem, season_n
     if len(link_items) < 5:
         new_link_items = link_items
     else:
-        while i < len(link_items):
-            if i + 5 <= len(link_items) :
-                new_link_items.append([link_items[i], link_items[i + 1], link_items[i + 2], link_items[i + 3], link_items[i + 4]])
-                i += 5
-            else:
-                new_link_items.append([link_items[i]])
-                i += 1
+        while i < len(link_items) and i + 5 <= len(link_items):
+            new_link_items.append(
+                [link_items[i], link_items[i + 1], link_items[i + 2], link_items[i + 3], link_items[i + 4]])
+            i += 5
+        new_link_items.extend([link_items[i:]])
     if len(link_items) == 0:
         return await client.send_message(chat.id, 'There is no link to show!')
     else:
         return await client.edit_message(chat.id, msg_id, f"{response.title.capitalize()} - season {season_number}",
-                                     buttons=new_link_items)
+                                         buttons=new_link_items)
 
 
 async def get_serial_link(client, chat, msg_id, response: DLinkItem, season_number, episode_number):
+    # todo go back to eason
     link_items = []
     for item in response.seasons[int(season_number) - 1].episodes[int(episode_number) - 1].links:
         try:
@@ -118,13 +128,10 @@ async def get_serial_link(client, chat, msg_id, response: DLinkItem, season_numb
     if len(link_items) < 3:
         new_link_items = link_items
     else:
-        while i < len(link_items):
-            if i + 2 <= len(link_items) - 1:
-                new_link_items.append([link_items[i], link_items[i + 1]])
-                i += 2
-            else:
-                new_link_items.append([link_items[i]])
-                i += 1
+        while i < len(link_items) and i + 2 <= len(link_items) - 1:
+            new_link_items.append([link_items[i], link_items[i + 1]])
+            i += 2
+        new_link_items.extend([link_items[i:]])
     if len(new_link_items) == 0:
         return await client.edit_message(chat.id, msg_id, 'There is no link to show!')
     else:

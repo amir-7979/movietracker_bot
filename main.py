@@ -4,18 +4,11 @@ import threading
 import time
 
 from telethon.events import NewMessage, CallbackQuery
-from telethon.tl import functions, types
-from telethon.tl.functions.channels import JoinChannelRequest, GetParticipantsRequest
-from telethon.tl.types import ChannelParticipantsRecent, InputChannel
-from telethon.tl.types.channels import ChannelParticipants
-
 import utilities.variables
 import utilities.classes
 from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.sync import events
-from telethon.tl.functions.contacts import ResolveUsernameRequest
-
 from api_requests.movie_request import *
 from utilities.helper_function import *
 from view_model.view_model import show_low_data_item, show_search_data_item, show_download_link_item, \
