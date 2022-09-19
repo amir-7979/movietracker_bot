@@ -71,6 +71,7 @@ async def get_serial_season(chat, client, response):
                     Button.inline(text=f"season {item.seasonNumber}", data=f"{response.id}-{item.seasonNumber}"))
         except:
             print("An exception occurred")
+
     i = 0
     new_link_items: list = []
     if len(link_items) < 5:
