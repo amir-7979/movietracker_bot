@@ -49,7 +49,8 @@ async def rec_commands(event: NewMessage.Event):
     if len(split) == 1:
         if text == '/start':
             await check_user_sub(client, chat, event, True)
-
+            # res = await client.get_messages(limit=10)
+            # print(res)
         # if first_run:
         #     first_run = False
         #     get_new_data()
