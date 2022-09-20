@@ -96,8 +96,35 @@ class TelBotItem:
         return TelBotItem(s_id, _type, _rawTitle, _posters, _year, _premiered, _rating, _summary, _latest_data, _genres)
 
     def to_string(self):
-        url = f"https://t.me/MovieTracker1bot?start={self.s_id}"
-        return f"🎬 {self.rawTitle} \n\n🔹 Type : {self.type} \n\n🎖IMDb: {self.rating.imdb} | ⓂMeta: {self.rating.metacritic} | 🍅RT: {self.rating.rottenTomatoes} \n\n📅 Year : {self.year} \n\n🎭 Genre : {', '.join(self.genres)} \n\n📜 Summary : \n{self.summary.persian}\n\n[download]({url})\n\n[github](https://github.com/ashkan-esz/downloader_api)"
+        rate: str = ''
+        if self.rating.imdb != 0:
+            rate = rate.__add__(f"🎖IMDb: {self.rating.imdb} ")
+        if self.rating.metacritic != 0:
+            rate = rate.__add__(f"|ⓂMeta: {self.rating.metacritic} ")
+        if self.rating.rottenTomatoes != 0:
+            rate = rate.__add__(f"|🍅RT: {self.rating.rottenTomatoes} ")
+        if self.rating.myAnimeList != 0:
+            rate = rate.__add__(f"|🏅myAnimeList: {self.rating.myAnimeList} ")
+        if rate[0] == '|':
+            rate = rate[1:]
+        summary: str = ''
+        if len(self.summary.persian) == 0:
+            if len(self.summary.english) != 0:
+                summary = f"📜 Summary: \n{self.summary.english}\n\n"
+        else:
+            summary = f"📜 Summary: \n{self.summary.persian}\n\n"
+        year = ''
+        if len(self.year) != 0:
+            f"📅 Year : {self.year}\n\n"
+        genre = ''
+        if len(self.genres) != 0:
+            genre = f"🎭 Genre : {', '.join(self.genres)}\n\n"
+
+        website_url = f"https://movie-tracker-nine.vercel.app/movie/{self.s_id}/{self.rawTitle.replace(' ', '_')}"
+        if len(self.year) != 0:
+            website_url = website_url.__add__(f"-{self.year}")
+        print(website_url)
+        return f"🎬 {self.rawTitle}\n\n🔹 Type : {self.type.title().replace('_', ' ')}\n\n{rate}\n\n{year}{genre}{summary}[📥 download](https://t.me/MovieTracker1bot?start={self.s_id})\n\n[🌐 website]({website_url})"
 
     def get_url(self) -> str:
         return self.posters[0].url

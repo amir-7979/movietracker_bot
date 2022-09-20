@@ -1,4 +1,3 @@
-import os
 import time
 from telethon.sync import TelegramClient, Button
 from model.dlink_model import DLinkItem
@@ -6,17 +5,16 @@ from utilities.variables import page
 
 
 async def show_low_data_item(client: TelegramClient, chat, response, buttons):
-    # await client.send_message(chat.id, response[0].to_string(),
-    #                           file=response[0].get_url(),
-    #                           link_preview=False, buttons=buttons)
-    # await client.send_message(chat.id, '-', buttons=buttons)
-    for item in response:
-        try:
-            await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
-                                      buttons=buttons)
-            time.sleep(0.4)
-        except:
-            print("An exception occurred")
+    if len(response) == 0:
+        return await client.send_message(chat.id, 'Nothing to show!')
+    else:
+        for item in response:
+            try:
+                await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
+                                          buttons=buttons)
+                time.sleep(0.4)
+            except:
+                print("An exception occurred")
 
 
 async def show_low_data_news_with_date(client: TelegramClient, channel, response):
@@ -28,20 +26,23 @@ async def show_low_data_news_with_date(client: TelegramClient, channel, response
 
 
 async def show_search_data_item(client: TelegramClient, chat, response, buttons):
-    search_items = []
-    for item in response:
-        try:
-            search_items.append(
-                [Button.text(f"{item.rawTitle} | {item.type} | {item.rating.imdb} | {item.year}", resize=True)])
-        except:
-            print("An exception occurred")
-    if page.page_number == 1:
-        search_items.insert(0, [buttons[1]])
+    if len(response) == 0:
+        return await client.send_message(chat.id, 'Nothing to show!')
     else:
-        search_items.insert(0, [buttons[0], buttons[1]])
-    if len(response) == 12:
-        search_items.append([buttons[2]])
-    await client.send_message(chat.id, '-', buttons=search_items)
+        search_items = []
+        for item in response:
+            try:
+                search_items.append(
+                    [Button.text(f"{item.rawTitle} | {item.type} | {item.rating.imdb} | {item.year}", resize=True)])
+            except:
+                print("An exception occurred")
+        if page.page_number == 1:
+            search_items.insert(0, [buttons[1]])
+        else:
+            search_items.insert(0, [buttons[0], buttons[1]])
+        if len(response) == 12:
+            search_items.append([buttons[2]])
+        return await client.send_message(chat.id, 'Choose one of the options below', buttons=search_items)
 
 
 async def show_download_link_item(client: TelegramClient, chat, response: DLinkItem):

@@ -5,9 +5,7 @@ class State(Enum):
     main = 0
     news = 1
     search = 2
-    quality = 3
-    season = 4
-    episode = 5
+    searching = 3
 
 
 class Page:

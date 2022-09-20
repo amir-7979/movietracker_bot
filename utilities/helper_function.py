@@ -16,6 +16,8 @@ def get_keyboard_button(enum):
         return utilities.variables.news_button
     elif enum == utilities.classes.State.search:
         return utilities.variables.search_button
+    elif enum == utilities.classes.State.searching:
+        return utilities.variables.search_button[1]
 
 
 def click_keyboard_button(searching, new_state):
@@ -51,7 +53,7 @@ def func_list(i: int):
         return get_search(utilities.variables.page.search_name, utilities.variables.page.page_number)
 
 
-async def welcome(client, chat, event):
+async def check_user_sub(client, chat, event, first_use) -> bool:
     channel = await client.get_entity('t.me/movie_tracker1')
     result: ChannelParticipants = await client(
         GetParticipantsRequest(InputChannel(channel.id, channel.access_hash), filter=ChannelParticipantsRecent(),
@@ -59,11 +61,12 @@ async def welcome(client, chat, event):
     sender = event.original_update.message.peer_id.user_id
     subscribers = (o.user_id for o in result.participants)
     if sender in subscribers:
-        await client.send_message(chat.id, 'Welcome to MovieTracker bot',
-                                  buttons=click_keyboard_button(False, utilities.classes.State.main))
+        if first_use:
+            await client.send_message(chat.id, 'Welcome to MovieTracker bot', buttons=click_keyboard_button(False, utilities.classes.State.main))
+        return True
     else:
         await client.send_message(chat.id, 'Hi!\nPlease join our channel to use bot',
                                   buttons=utilities.variables.channel_button)
-
+        return False
 
 
