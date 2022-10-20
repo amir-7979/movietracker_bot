@@ -1,7 +1,8 @@
-import time
 from telethon.sync import TelegramClient, Button
+
 from model.dlink_model import DLinkItem
-from utilities.variables import page
+from model.telbot_model import TelBotItem
+import utilities.variables
 
 
 async def show_low_data_item(client: TelegramClient, chat, response, buttons):
@@ -9,24 +10,23 @@ async def show_low_data_item(client: TelegramClient, chat, response, buttons):
         return await client.send_message(chat.id, 'Nothing to show!')
     else:
         for item in response:
-            try:
-                await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
-                                          buttons=buttons)
+            await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
+                                      buttons=buttons)
+            #     try:
+            #     time.sleep(0.4)
+            # except :
+            #     print("An exception occurred")
 
-                time.sleep(0.4)
-            except:
-                print("An exception occurred")
 
-
-async def show_low_data_news_with_date(client: TelegramClient, channel, response):
+async def show_low_data_updates_with_date(client: TelegramClient, channel, response):
     for item in response:
         try:
-            await client.send_message(channel, item.to_string(), file=item.get_url(), link_preview=False)
+            await client.send_message(channel, item.to_string_update(), file=item.get_url(), link_preview=False)
         except:
             print("An exception occurred")
 
 
-async def show_search_data_item(client: TelegramClient, chat, response, buttons):
+async def show_search_data_item(client: TelegramClient, chat, user_id, response, buttons,):
     if len(response) == 0:
         return await client.send_message(chat.id, 'Nothing to show!')
     else:
@@ -37,7 +37,7 @@ async def show_search_data_item(client: TelegramClient, chat, response, buttons)
                     [Button.text(f"{item.rawTitle} | {item.type} | {item.rating.imdb} | {item.year}", resize=True)])
             except:
                 print("An exception occurred")
-        if page.page_number == 1:
+        if utilities.variables.movie_db.get_page_db((user_id,)):
             search_items.insert(0, [buttons[1]])
         else:
             search_items.insert(0, [buttons[0], buttons[1]])
@@ -46,14 +46,7 @@ async def show_search_data_item(client: TelegramClient, chat, response, buttons)
         return await client.send_message(chat.id, 'Choose one of the options below', buttons=search_items)
 
 
-async def show_download_link_item(client: TelegramClient, chat, response: DLinkItem):
-    if len(response.qualities) != 0:
-        await get_movie_link(chat, client, response)
-    else:
-        await get_serial_season(chat, client, response)
-
-
-async def get_movie_link(chat, client, response):
+async def get_movie_link(chat, client, response: DLinkItem):
     link_items = []
     for item in response.qualities:
         try:
@@ -61,16 +54,18 @@ async def get_movie_link(chat, client, response):
                 link_items.append(Button.url(f"{item.quality}", url=item.links[0].link))
         except:
             print("An exception occurred")
-    await client.send_message(chat.id, response.title.capitalize(), buttons=link_items)
+    await client.send_message(chat.id, response.rawTitle, buttons=link_items)
 
 
-async def get_serial_season(chat, client, response):
+async def get_serial_seasons(chat, client: TelegramClient, response: TelBotItem):
+    if len(response.seasonEpisode) == 0:
+        return await client.send_message(chat.id, 'No season found!')
     link_items = []
-    for item in response.seasons:
+    for item in response.seasonEpisode:
         try:
-            if len(item.episodes) != 0:
-                link_items.append(
-                    Button.inline(text=f"season {item.seasonNumber}", data=f"{response.id}-{item.seasonNumber}"))
+            link_items.append(
+                Button.inline(text=f"season {item.seasonNumber}",
+                              data=f"{response.id}-{response.type}-{item.seasonNumber}"))
         except:
             print("An exception occurred")
 
@@ -87,16 +82,20 @@ async def get_serial_season(chat, client, response):
     if len(link_items) == 0:
         return await client.send_message(chat.id, 'There is no link to show!')
     else:
-        return await client.send_message(chat.id, response.title.capitalize(), buttons=new_link_items)
+        return await client.send_message(chat.id, response.rawTitle, buttons=new_link_items)
 
 
-async def get_serial_episode(client, chat, msg_id, response: DLinkItem, season_number):
+async def get_serial_episode(client, chat_id, msg_id, response: TelBotItem, season_number: str):
+    print(season_number)
+    elems = (elem for elem in response.seasonEpisode if elem.seasonNumber == int(season_number))
+    elems2 = list(elems)
+    if elems2[0].episodes == 0:
+        return await client.send_message(chat_id, 'No episode found!')
     link_items = []
-    for item in response.seasons[int(season_number) - 1].episodes:
+    for item in range(elems2[0].episodes):
         try:
-            if len(item.links) != 0:
-                link_items.append(Button.inline(text=f"ep {item.episodeNumber}",
-                                                data=f"{response.id}-{season_number}-{item.episodeNumber}"))
+                link_items.append(Button.inline(text=f"ep {int(item) + 1}",
+                                                data=f"{response.id}-{response.type}-{season_number}-{item}"))
         except:
             print("An exception occurred")
     i = 0
@@ -110,19 +109,25 @@ async def get_serial_episode(client, chat, msg_id, response: DLinkItem, season_n
             i += 5
         new_link_items.extend([link_items[i:]])
     if len(link_items) == 0:
-        return await client.send_message(chat.id, 'There is no link to show!')
+        return await client.send_message(chat_id, 'There is no link to show!')
     else:
-        return await client.edit_message(chat.id, msg_id, f"{response.title.capitalize()} - season {season_number}",
+        return await client.edit_message(chat_id, msg_id, f"{response.rawTitle} - season {season_number}",
                                          buttons=new_link_items)
 
 
-async def get_serial_link(client, chat, msg_id, response: DLinkItem, season_number, episode_number):
-    # todo go back to eason
+async def get_serial_link(client, chat_id, msg_id, response: DLinkItem, season_number, episode_number):
+    # todo go back to season
+    if len(response.seasons) == 0:
+        return await client.edit_message(chat_id, msg_id, 'There is no link to show!')
+    if len(response.seasons[0].episodes) == 0:
+        return await client.edit_message(chat_id, msg_id, 'There is no link to show!')
     link_items = []
-    for item in response.seasons[int(season_number) - 1].episodes[int(episode_number) - 1].links:
+    for item in response.seasons[0].episodes[0].links:
         try:
             if len(item.link) != 0:
-                link_items.append(Button.url(f"{item.info}", url=item.link))
+                print(item.info, item.link)
+                link_items.append(Button.url(f"{item.info}", url=item.link.replace(' ', '%20')))
+                print(item.link)
         except:
             print("An exception occurred")
 
@@ -136,7 +141,7 @@ async def get_serial_link(client, chat, msg_id, response: DLinkItem, season_numb
             i += 2
         new_link_items.extend([link_items[i:]])
     if len(new_link_items) == 0:
-        return await client.edit_message(chat.id, msg_id, 'There is no link to show!')
+        return await client.edit_message(chat_id, msg_id, 'There is no link to show!')
     else:
-        return await client.edit_message(chat.id, msg_id, f"{response.title.capitalize()} - season {season_number} - "
-                                                          f"episode {episode_number}", buttons=new_link_items)
+        return await client.edit_message(chat_id, msg_id, f"{response.rawTitle} - season {int(season_number) + 1} - "
+                                                          f"episode {int(episode_number)+1}", buttons=new_link_items)

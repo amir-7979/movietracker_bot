@@ -1,6 +1,6 @@
-from typing import List
-from typing import Any
 from dataclasses import dataclass
+from typing import Any
+from typing import List
 
 
 @dataclass
@@ -89,7 +89,7 @@ class Season:
 @dataclass
 class DLinkItem:
     _id: str
-    title: str
+    rawTitle: str
     type: str
     qualities: List[Quality]
     seasons: List[Season]
@@ -99,13 +99,13 @@ class DLinkItem:
     @staticmethod
     def from_dict(obj: Any) -> 'DLinkItem':
         __id = str(obj.get("_id"))
-        _title = str(obj.get("title"))
+        _rawTitle = str(obj.get("rawTitle"))
         _type = str(obj.get("type"))
         _qualities = [Quality.from_dict(y) for y in obj.get("qualities")]
         _seasons = [Season.from_dict(y) for y in obj.get("seasons")]
         _posters = [Poster.from_dict(y) for y in obj.get("posters")]
         _year = str(obj.get("year"))
-        return DLinkItem(__id, _title, _type, _qualities, _seasons, _posters, _year)
+        return DLinkItem(__id, _rawTitle, _type, _qualities, _seasons, _posters, _year)
 
     @property
     def id(self):
