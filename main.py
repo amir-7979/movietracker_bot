@@ -40,9 +40,6 @@ async def download_handler(event: CallbackQuery.Event):
     return
 
 
-
-
-
 @bot.on(events.NewMessage(pattern=""))
 async def other_commands(event):
     text: str = event.message.text
@@ -56,5 +53,6 @@ async def other_commands(event):
         await find_method(bot, chat, message_text, user_id)
     else:
         reset_db(event.original_update.message.peer_id.user_id)
+
 
 bot.run_until_disconnected()
