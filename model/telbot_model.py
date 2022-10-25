@@ -209,15 +209,16 @@ class TelBotItem:
     def get_actors(self) -> str:
         if len(self.actorsAndCharacters) != 0:
             return f"🎭 Actors : {', '.join([y.name.capitalize() for y in self.actorsAndCharacters][0:4])}\n\n"
-
+        return ''
     def get_last_update(self) -> str:
         if self.latestData.updateReason is not None:
             if self.latestData.updateReason == 'season'and self.latestData.season != 0:
-                return f"➕ Update : season {self.latestData.season} added\n\n"
+                return f"➕ Update : S {self.latestData.season}\n\n"
             if self.latestData.updateReason == 'episode' and self.latestData.episode != 0:
-                return f"➕ Update : episode {self.latestData.episode} from season {self.latestData.season} added\n\n"
+                return f"➕ Update : S {self.latestData.season}  E {self.latestData.episode}\n\n"
             if self.latestData.updateReason == 'quality' and len(self.latestData.quality) != 0:
-                return f"➕ Update : quality {self.latestData.quality} added\n\n"
+                return f"➕ Update : {self.latestData.quality}\n\n"
+        return ''
 
     def get_rate(self) -> str:
         rate: str = ''
@@ -245,15 +246,19 @@ class TelBotItem:
             summary = self.summary.persian
         if len(summary) > 150:
             summary = " ".join(summary.split()[:85])
+        if len(summary) == 0:
+            return ''
         return first_part + summary + ' ...\n\n'
 
     def get_year(self) -> str:
         if len(self.year) != 0:
             return f"📅 Year : {self.year}\n\n"
+        return ''
 
     def get_genre(self) -> str:
         if len(self.genres) != 0:
             return f"⭕ Genre : {', '.join(self.genres)}\n\n"
+        return ''
 
     def get_website_url(self) -> str:
         website_url = f"https://movie-tracker-nine.vercel.app/movie/{self._id}/{self.rawTitle.replace(' ', '_')}"
@@ -265,15 +270,16 @@ class TelBotItem:
         return f"https://t.me/MovieTracker1bot?start={self._id}-{self.type}"
 
     def get_url(self) -> str:
-        if self.posters[0].url is None:
-            print(self.id)
+        if len(self.posters) == 0:
+            #todo ashkan
+            return "https://poster.s3.ir-thr-at1.arvanstorage.com/tt-tt2-5555.jpg"
         return self.posters[0].url
 
     def to_string(self):
+
         return f"🎬 {self.rawTitle}\n\n🔹 Type : {self.type.title().replace('_', ' ')}\n\n{self.get_rate()}{self.get_year()}{self.get_genre()}{self.get_actors()}{self.get_summary()}[📥 download]({self.get_download_link()})\n\n[🌐 website]({self.get_website_url()})\n\n[🔔 channel](https://t.me/movie_tracker1) "
 
-    def to_string_update(self):
-        print(self.latestData)
+    def to_string_channel(self):
         return f"🎬 {self.rawTitle}\n\n🔹 Type : {self.type.title().replace('_', ' ')}\n\n{self.get_rate()}{self.get_last_update()}{self.get_year()}{self.get_genre()}{self.get_actors()}{self.get_summary()}[📥 download]({self.get_download_link()})\n\n[🌐 website]({self.get_website_url()})\n\n[🔔 channel](https://t.me/movie_tracker1) "
 
     @property

@@ -1,15 +1,9 @@
 from telethon.sync import Button
-
-from utilities.classes import State, Page
-
+server_address = ''
 channel = ''
 movie_db = None
-is_searching = False
 first_run = True
-state = State.main
-function_number = -1
-wait_seconds = 10
-page = Page()
+wait_seconds = 5
 start_buttons = [
     [Button.text('🔍 Search', resize=True), Button.text('🔥 News', resize=True),
      Button.text('💢 Updates', resize=True)],
