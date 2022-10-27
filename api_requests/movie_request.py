@@ -120,10 +120,8 @@ async def get_movie_download_links(movie_id: str) -> DLinkItem:
 
 async def get_serial_links(movie_id: str, season, episode) -> DLinkItem:
     params = {'seasons': season, 'episodes': episode, 'testUser': 'true'}
-
     response = session.get(
         f'{utilities.variables.server_address}/movies/searchByID/{movie_id}/dlink?', params=params)
-    print(params)
     return DLinkItem.from_dict(response.json()['data'])
 
 

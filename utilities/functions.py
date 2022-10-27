@@ -116,7 +116,6 @@ async def find_method(bot, chat, message_text, user_id):
                 response = await get_movie(split[0], split[1], split[2], '')
             else:
                 response = await get_movie(split[0], split[1], split[2], split[3])
-            print(response)
             await bot.send_message(chat.id, response.to_string(), file=response.get_url(), link_preview=False,
                                    buttons=buttons)
         elif message_text == '🔍 Search':
@@ -171,20 +170,7 @@ async def channel_data(bot, bot_id):
         await show_item_channel(bot, channel, response)
         if len(response) == 0:
             break
-
-    print('brake')
     threading.Timer(60, channel_data, (bot, bot_id)).start()
-
-
-def news_with_date2(bot, bot_id):
-    # loop = asyncio.new_event_loop()
-    # asyncio.set_event_loop(loop)
-    # loop.run_until_complete(news_with_date(bot_id))
-    # loop.close()
-    print('timer')
-
-
-
 
 
 def reset_db(user_id):

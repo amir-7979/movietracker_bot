@@ -14,14 +14,12 @@ async def show_low_data_item(client: TelegramClient, chat, response):
     else:
 
         for item in response:
-            # try:
-            print(item)
-
-            await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
-                                      buttons=news_button)
-            time.sleep(0.1)
-        # except:
-        #     print("An exception occurred")
+            try:
+                await client.send_message(chat.id, item.to_string(), file=item.get_url(), link_preview=False,
+                                          buttons=news_button)
+                time.sleep(0.1)
+            except:
+                print("An exception occurred")
 
 
 async def show_item_channel(client: TelegramClient, channel, response):
