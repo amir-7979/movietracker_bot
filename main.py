@@ -5,7 +5,7 @@ from telethon.events import NewMessage, CallbackQuery
 from telethon.sync import events
 from utilities.functions import user_start, check_user_sub, set_download_button, download_handler_type, find_method, \
     reset_db
-import utilities.variables
+import utilities
 
 load_dotenv('scratch.env')
 api_id = int(os.getenv('API_ID'))

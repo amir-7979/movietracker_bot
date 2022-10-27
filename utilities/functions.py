@@ -160,7 +160,7 @@ async def user_start(bot, chat, event, bot_id):
         first_run = False
         movie_db = MovieDb()
         channel = await bot(ResolveUsernameRequest('movie_tracker1'))
-        #await channel_data(bot, bot_id)
+        await channel_data(bot, bot_id)
     movie_db.reset_all((event.original_update.message.peer_id.user_id,))
 
 

@@ -3,7 +3,7 @@ server_address = ''
 channel = ''
 movie_db = None
 first_run = True
-wait_seconds = 5
+wait_seconds = 3600
 start_buttons = [
     [Button.text('🔍 Search', resize=True), Button.text('🔥 News', resize=True),
      Button.text('💢 Updates', resize=True)],

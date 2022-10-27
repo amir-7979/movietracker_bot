@@ -1,0 +1,9 @@
+version: '3.10.6'
+services:
+
+  python:
+
+    container_name: movie_tracker
+
+    env_file:
+      - scratch.env
