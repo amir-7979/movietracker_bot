@@ -213,9 +213,9 @@ class TelBotItem:
     def get_last_update(self):
         if self.latestData.updateReason is not None:
             if self.latestData.updateReason == 'season'and self.latestData.season != 0:
-                return f"➕ Update : S {self.latestData.season}\n\n"
+                return f"➕ Update : S{self.latestData.season}\n\n"
             if self.latestData.updateReason == 'episode' and self.latestData.episode != 0:
-                return f"➕ Update : S {self.latestData.season}  E {self.latestData.episode}\n\n"
+                return f"➕ Update : S{self.latestData.season} E{self.latestData.episode}\n\n"
             if self.latestData.updateReason == 'quality' and len(self.latestData.quality) != 0:
                 return f"➕ Update : {self.latestData.quality}\n\n"
         return ''

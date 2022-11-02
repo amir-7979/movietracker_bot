@@ -148,5 +148,5 @@ async def get_serial_link(client, chat_id, msg_id, response: DLinkItem, season_n
     if len(new_link_items) == 0:
         return await client.edit_message(chat_id, msg_id, 'There is no link to show!')
     else:
-        return await client.edit_message(chat_id, msg_id, f"{response.rawTitle} - season {int(season_number) + 1} - "
+        return await client.edit_message(chat_id, msg_id, f"{response.rawTitle} - season {season_number} - "
                                                           f"episode {int(episode_number) + 1}", buttons=new_link_items)

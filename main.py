@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.events import NewMessage, CallbackQuery
 from telethon.sync import events
+from model.movie_db import MovieDb
 from utilities.functions import user_start, check_user_sub, set_download_button, download_handler_type, find_method, \
     reset_db
 import utilities
@@ -14,7 +15,7 @@ bot_token = os.getenv("BOT_TOKEN")
 bot_id = os.getenv("BOT_ID")
 utilities.variables.server_address = os.getenv("SERVER_ADDRESS")
 bot = TelegramClient('bot2', api_id, api_hash).start(bot_token=bot_token)
-
+movie_db = MovieDb()
 
 @bot.on(events.NewMessage(pattern="/start"))
 async def start_command(event: NewMessage.Event):

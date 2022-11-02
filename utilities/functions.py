@@ -1,8 +1,5 @@
-import asyncio
 import re
 import threading
-import time
-
 from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.functions.contacts import ResolveUsernameRequest
 from telethon.tl.types import InputChannel, ChannelParticipantsRecent
@@ -157,7 +154,6 @@ async def user_start(bot, chat, event, bot_id):
     await check_user_sub(bot, chat.id, event, True)
     if first_run:
         first_run = False
-        movie_db = MovieDb()
         channel = await bot(ResolveUsernameRequest('movie_tracker1'))
         await channel_data(bot, bot_id)
     movie_db.reset_all((event.original_update.message.peer_id.user_id,))
