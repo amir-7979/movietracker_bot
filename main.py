@@ -15,6 +15,7 @@ bot_token = os.getenv("BOT_TOKEN")
 bot_id = os.getenv("BOT_ID")
 utilities.variables.server_address = os.getenv("SERVER_ADDRESS")
 bot = TelegramClient('bot2', api_id, api_hash).start(bot_token=bot_token)
+global movie_db
 movie_db = MovieDb()
 
 @bot.on(events.NewMessage(pattern="/start"))
