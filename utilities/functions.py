@@ -44,7 +44,7 @@ def func_list(i: int, user_id: int):
         return get_search(movie_db.get_search_name_db((user_id,)), page_number)
 
 
-async def check_user_sub(client, chat_id, event, first_use) -> bool:
+async def check_user_sub(client, chat_id, event, first_use):
     global channel, start_buttons
     channel = await client.get_entity('t.me/movie_tracker1')
     result: ChannelParticipants = await client(

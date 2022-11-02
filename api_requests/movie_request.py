@@ -25,83 +25,83 @@ def api_handler(url):
     return [TelBotItem.from_dict(y) for y in response.json()['data']]
 
 
-async def get_news(i: int) -> list[TelBotItem]:
+async def get_news(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/news/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true', )
 
 
-async def get_coming_soon(i: int) -> list[TelBotItem]:
+async def get_coming_soon(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/comingSoon/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true',
     )
 
 
-async def get_in_theaters(i: int) -> list[TelBotItem]:
+async def get_in_theaters(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/inTheaters/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true',
     )
 
 
-async def get_box_office(i: int) -> list[TelBotItem]:
+async def get_box_office(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/boxOffice/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true',
     )
 
 
-async def get_anime_top_airing(i: int) -> list[TelBotItem]:
+async def get_anime_top_airing(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/animeTopAiring/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true',
     )
 
 
-async def get_anime_top_comingSoon(i: int) -> list[TelBotItem]:
+async def get_anime_top_comingSoon(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/animeTopComingSoon/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true',
     )
 
 
-async def get_popular(i: int) -> list[TelBotItem]:
+async def get_popular(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/popular/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}?testUser=true',
     )
 
 
-async def get_updates(i: int) -> list[TelBotItem]:
+async def get_updates(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/updates/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}'
         '?testUser=true')
 
 
-async def get_tops_by_likes(i: int) -> list[TelBotItem]:
+async def get_tops_by_likes(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/topsByLikes/movie-serial-anime_movie-anime_serial/telbot/0-10/0-10/{i}'
         '?testUser=true')
 
 
-async def get_top_movies(i: int) -> list[TelBotItem]:
+async def get_top_movies(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/top/movie/telbot/0-10/0-10/{i}'
         '?testUser=true')
 
 
-async def get_top_series(i: int) -> list[TelBotItem]:
+async def get_top_series(i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/sortedMovies/top/serial/telbot/0-10/0-10/{i}'
         '?testUser=true')
 
 
-async def get_search(text, i: int) -> list[TelBotItem]:
+async def get_search(text, i: int):
     return api_handler(
         f'{utilities.variables.server_address}/movies/searchMovie/telbot/{i}?title={text}&testUser=true')
 
 
-async def get_search_by_id(item_id) -> TelBotItem:
+async def get_search_by_id(item_id):
     response = session.get(
         f'{utilities.variables.server_address}/movies/searchByID/{item_id}/telbot?testUser=true')
     return TelBotItem.from_dict(response.json()['data'])
 
 
-async def get_movie(title: str, types: str, imdb_scores: str, years: str) -> TelBotItem:
+async def get_movie(title: str, types: str, imdb_scores: str, years: str):
     imdb_scores = imdb_scores.replace(' |', '')
     params = {'title': title, 'types': types, 'imdbScores': '0-' + imdb_scores,
               'testUser': 'true'}
@@ -112,13 +112,13 @@ async def get_movie(title: str, types: str, imdb_scores: str, years: str) -> Tel
     return TelBotItem.from_dict(response.json()['data'][0])
 
 
-async def get_movie_download_links(movie_id: str) -> DLinkItem:
+async def get_movie_download_links(movie_id: str):
     response = session.get(
         f'{utilities.variables.server_address}/movies/searchByID/{movie_id}/dlink?testUser=true')
     return DLinkItem.from_dict(response.json()['data'])
 
 
-async def get_serial_links(movie_id: str, season, episode) -> DLinkItem:
+async def get_serial_links(movie_id: str, season, episode):
     params = {'seasons': season, 'episodes': episode, 'testUser': 'true'}
     response = session.get(
         f'{utilities.variables.server_address}/movies/searchByID/{movie_id}/dlink?', params=params)

@@ -13,7 +13,7 @@ class ActorsAndCharacter:
     positions: List[str]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'ActorsAndCharacter':
+    def from_dict(obj: Any):
         _id = str(obj.get("id"))
         _name = str(obj.get("name"))
         _gender = str(obj.get("gender"))
@@ -34,7 +34,7 @@ class Director:
     characterData: str
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Director':
+    def from_dict(obj: Any):
         __id = str(obj.get("_id"))
         _name = str(obj.get("name"))
         _gender = str(obj.get("gender"))
@@ -58,7 +58,7 @@ class LatestData:
     updateReason: str
 
     @staticmethod
-    def from_dict(obj: Any) -> 'LatestData':
+    def from_dict(obj: Any):
         _season = int(obj.get("season"))
         _episode = int(obj.get("episode"))
         _quality = str(obj.get("quality"))
@@ -79,7 +79,7 @@ class Poster:
     size: int
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Poster':
+    def from_dict(obj: Any):
         _url = str(obj.get("url"))
         _info = str(obj.get("info"))
         _size = int(obj.get("size"))
@@ -94,7 +94,7 @@ class Rating:
     myAnimeList: int
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Rating':
+    def from_dict(obj: Any):
         _imdb = float(obj.get("imdb"))
         _rottenTomatoes = int(obj.get("rottenTomatoes"))
         _metacritic = int(obj.get("metacritic"))
@@ -108,7 +108,7 @@ class SeasonEpisode:
     episodes: int
 
     @staticmethod
-    def from_dict(obj: Any) -> 'SeasonEpisode':
+    def from_dict(obj: Any):
         _seasonNumber = int(obj.get("seasonNumber"))
         _episodes = int(obj.get("episodes"))
         return SeasonEpisode(_seasonNumber, _episodes)
@@ -125,7 +125,7 @@ class Writer:
     characterData: str
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Writer':
+    def from_dict(obj: Any):
         __id = str(obj.get("_id"))
         _name = str(obj.get("name"))
         _gender = str(obj.get("gender"))
@@ -142,7 +142,7 @@ class Staff:
     writers: List[Writer]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Staff':
+    def from_dict(obj: Any):
         _directors = [Director.from_dict(y) for y in obj.get("directors")]
         _writers = [Writer.from_dict(y) for y in obj.get("writers")]
         return Staff(_directors, _writers)
@@ -156,7 +156,7 @@ class Summary:
     persian_source: str
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Summary':
+    def from_dict(obj: Any):
         _persian = str(obj.get("persian"))
         _english = str(obj.get("english"))
         _english_source = str(obj.get("english_source"))
@@ -185,7 +185,7 @@ class TelBotItem:
     seasonEpisode: List[SeasonEpisode]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'TelBotItem':
+    def from_dict(obj: Any):
         __id = str(obj.get("_id"))
         _type = str(obj.get("type"))
         _rawTitle = str(obj.get("rawTitle"))
@@ -206,11 +206,11 @@ class TelBotItem:
         return TelBotItem(__id, _type, _rawTitle, _posters, _summary, _latestData, _releaseDay, _year, _premiered,
                           _duration, _rated, _country, _genres, _rating, _actorsAndCharacters, _staff, _seasonEpisode)
 
-    def get_actors(self) -> str:
+    def get_actors(self):
         if len(self.actorsAndCharacters) != 0:
             return f"🎭 Actors : {', '.join([y.name.capitalize() for y in self.actorsAndCharacters][0:4])}\n\n"
         return ''
-    def get_last_update(self) -> str:
+    def get_last_update(self):
         if self.latestData.updateReason is not None:
             if self.latestData.updateReason == 'season'and self.latestData.season != 0:
                 return f"➕ Update : S {self.latestData.season}\n\n"
@@ -220,7 +220,7 @@ class TelBotItem:
                 return f"➕ Update : {self.latestData.quality}\n\n"
         return ''
 
-    def get_rate(self) -> str:
+    def get_rate(self):
         rate: str = ''
         if self.rating.imdb != 0:
             rate = rate.__add__(f"🎖IMDb: {self.rating.imdb} ")
@@ -236,7 +236,7 @@ class TelBotItem:
             rate = rate.__add__('\n\n')
         return rate
 
-    def get_summary(self) -> str:
+    def get_summary(self):
         summary: str = ''
         first_part = '📜 Summary: \n'
         if len(self.summary.persian) == 0:
@@ -250,26 +250,26 @@ class TelBotItem:
             return ''
         return first_part + summary + ' ...\n\n'
 
-    def get_year(self) -> str:
+    def get_year(self):
         if len(self.year) != 0:
             return f"📅 Year : {self.year}\n\n"
         return ''
 
-    def get_genre(self) -> str:
+    def get_genre(self):
         if len(self.genres) != 0:
             return f"⭕ Genre : {', '.join(self.genres)}\n\n"
         return ''
 
-    def get_website_url(self) -> str:
+    def get_website_url(self):
         website_url = f"https://movie-tracker-nine.vercel.app/movie/{self._id}/{self.rawTitle.replace(' ', '_')}"
         if len(self.year) != 0:
             website_url = website_url.__add__(f"-{self.year}")
         return website_url
 
-    def get_download_link(self) -> str:
+    def get_download_link(self):
         return f"https://t.me/MovieTracker1bot?start={self._id}-{self.type}"
 
-    def get_url(self) -> str:
+    def get_url(self):
         if len(self.posters) == 0:
             #todo ashkan
             return "https://poster.s3.ir-thr-at1.arvanstorage.com/tt-tt2-5555.jpg"

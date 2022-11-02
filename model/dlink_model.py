@@ -14,7 +14,7 @@ class Link:
     episode: int
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Link':
+    def from_dict(obj: Any):
         _link = str(obj.get("link"))
         _info = str(obj.get("info"))
         _qualitySample = str(obj.get("qualitySample"))
@@ -32,7 +32,7 @@ class Poster:
     size: int
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Poster':
+    def from_dict(obj: Any):
         _url = str(obj.get("url"))
         _info = str(obj.get("info"))
         _size = int(obj.get("size"))
@@ -50,7 +50,7 @@ class Episode:
     links: List[Link]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Episode':
+    def from_dict(obj: Any):
         _episodeNumber = int(obj.get("episodeNumber"))
         _title = str(obj.get("title"))
         _released = str(obj.get("released"))
@@ -68,7 +68,7 @@ class Quality:
     links: List[Link]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Quality':
+    def from_dict(obj: Any):
         _quality = str(obj.get("quality"))
         _links = [Link.from_dict(y) for y in obj.get("links")]
         return Quality(_quality, _links)
@@ -80,7 +80,7 @@ class Season:
     episodes: List[Episode]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Season':
+    def from_dict(obj: Any):
         _seasonNumber = int(obj.get("seasonNumber"))
         _episodes = [Episode.from_dict(y) for y in obj.get("episodes")]
         return Season(_seasonNumber, _episodes)
@@ -97,7 +97,7 @@ class DLinkItem:
     year: str
 
     @staticmethod
-    def from_dict(obj: Any) -> 'DLinkItem':
+    def from_dict(obj: Any):
         __id = str(obj.get("_id"))
         _rawTitle = str(obj.get("rawTitle"))
         _type = str(obj.get("type"))
