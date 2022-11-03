@@ -16,6 +16,7 @@ session = CachedSession(
     ignored_parameters=['api_key'],  # Don't match this param or save it in the cache
     match_headers=True,  # Match all request headers
     stale_if_error=True,  # In case of request errors, use stale cache data if possible
+
 )
 
 

@@ -4,10 +4,8 @@ from telethon.tl.functions.channels import GetParticipantsRequest
 from telethon.tl.functions.contacts import ResolveUsernameRequest
 from telethon.tl.types import InputChannel, ChannelParticipantsRecent
 from telethon.tl.types.channels import ChannelParticipants
-
 from utilities.variables import *
 from api_requests.movie_request import *
-from model.movie_db import MovieDb
 from view_model.view_model import show_low_data_item, show_search_data_item, get_movie_link, get_serial_seasons, \
     get_serial_episode, get_serial_link, show_item_channel
 
@@ -92,7 +90,8 @@ async def find_method(bot, chat, message_text, user_id):
             function_number = movie_db.get_function_number_db((user_id,))
             response = await func_list(function_number, user_id)
             if function_number == 11:
-                await show_search_data_item(bot, chat, user_id, response, search_button, movie_db.get_page_db((user_id,)))
+                await show_search_data_item(bot, chat, user_id, response, search_button,
+                                            movie_db.get_page_db((user_id,)))
             else:
                 await show_low_data_item(bot, chat, response)
         elif message_text == '🔙':
@@ -100,15 +99,17 @@ async def find_method(bot, chat, message_text, user_id):
             function_number = movie_db.get_function_number_db((user_id,))
             response = await func_list(function_number, user_id)
             if function_number == 11:
-                await show_search_data_item(bot, chat, user_id, response, search_button, movie_db.get_page_db((user_id,)))
+                await show_search_data_item(bot, chat, user_id, response, search_button,
+                                            movie_db.get_page_db((user_id,)))
             else:
                 await show_low_data_item(bot, chat, response)
         elif re.findall("\|", message_text):
+            print(message_text)
             split = message_text.split(' | ')
-            movie_db.get_search_name_db((user_id, ))
+            movie_db.get_search_name_db((user_id,))
             response = await func_list(11, user_id)
             buttons = await show_search_data_item(bot, chat, user_id, response,
-                                        search_button, movie_db.get_page_db((user_id,)))
+                                                  search_button, movie_db.get_page_db((user_id,)))
             if len(split) == 3:
                 response = await get_movie(split[0], split[1], split[2], '')
             else:
@@ -125,7 +126,6 @@ async def find_method(bot, chat, message_text, user_id):
             response = await func_list(11, user_id)
             await show_search_data_item(bot, chat, user_id, response,
                                         search_button, movie_db.get_page_db((user_id,)))
-
 
 
 async def set_download_button(bot, chat, split):

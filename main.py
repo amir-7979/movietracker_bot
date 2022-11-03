@@ -3,10 +3,8 @@ from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.events import NewMessage, CallbackQuery
 from telethon.sync import events
-from model.movie_db import MovieDb
-from utilities.functions import user_start, check_user_sub, set_download_button, download_handler_type, find_method, \
-    reset_db
 import utilities
+from utilities.functions import user_start, check_user_sub, set_download_button, download_handler_type, find_method
 
 load_dotenv('scratch.env')
 api_id = int(os.getenv('API_ID'))
@@ -15,8 +13,7 @@ bot_token = os.getenv("BOT_TOKEN")
 bot_id = os.getenv("BOT_ID")
 utilities.variables.server_address = os.getenv("SERVER_ADDRESS")
 bot = TelegramClient('bot2', api_id, api_hash).start(bot_token=bot_token)
-global movie_db
-movie_db = MovieDb()
+
 
 @bot.on(events.NewMessage(pattern="/start"))
 async def start_command(event: NewMessage.Event):
@@ -29,7 +26,6 @@ async def start_command(event: NewMessage.Event):
     else:
         subscription = await check_user_sub(bot, chat, event, False)
         if not subscription:
-            # todo show message
             return
         await set_download_button(bot, chat, split)
 
@@ -53,8 +49,5 @@ async def other_commands(event):
         if not subscription:
             return
         await find_method(bot, chat, message_text, user_id)
-    else:
-        reset_db(event.original_update.message.peer_id.user_id)
-
 
 bot.run_until_disconnected()

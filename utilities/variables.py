@@ -1,7 +1,9 @@
 from telethon.sync import Button
+from model.movie_database import MovieDb
+
 server_address = ''
 channel = ''
-movie_db = None
+movie_db = MovieDb()
 first_run = True
 wait_seconds = 3600
 start_buttons = [

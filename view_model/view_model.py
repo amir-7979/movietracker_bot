@@ -1,7 +1,5 @@
 import time
-
 from telethon.sync import TelegramClient
-
 from model.dlink_model import DLinkItem
 from model.telbot_model import TelBotItem
 from utilities.variables import *
