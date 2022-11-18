@@ -1,3 +1,4 @@
+import sys
 import time
 from telethon.sync import TelegramClient
 from model.dlink_model import DLinkItem
@@ -25,7 +26,7 @@ async def show_item_channel(client: TelegramClient, channel, response):
         try:
             await client.send_message(channel, item.to_string_channel(), file=item.get_url(), link_preview=False)
         except:
-            print("An exception occurred")
+            print(sys.exc_info()[0])
 
 
 async def show_search_data_item(client: TelegramClient, chat, user_id, response, buttons, page_number):
