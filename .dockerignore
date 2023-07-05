@@ -1,0 +1,8 @@
+npm-debug.log
+build
+.git
+.idea
+*.md
+.gitignore
+.env
+.cache
