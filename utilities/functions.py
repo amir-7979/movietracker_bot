@@ -40,14 +40,16 @@ def func_list(i: int, user_id: int):
 
 
 async def check_user_sub(client, chat_id, event, first_use):
-    global channel, start_buttons
-    channel = await client.get_entity('t.me/movie_tracker1')
-    result: ChannelParticipants = await client(
-        GetParticipantsRequest(InputChannel(channel.id, channel.access_hash), filter=ChannelParticipantsRecent(),
-                               limit=1000000, offset=0, hash=0))
-    sender = event.original_update.message.peer_id.user_id
-    subscribers = (o.user_id for o in result.participants)
-    if sender in subscribers:
+    user = await event.get_sender()
+    user_id = user.id
+    try:
+        channel = await client.get_entity("movie_tracker1")
+        result = await client.get_participants(channel)
+        user_joined = any(user_id == participant.id for participant in result)
+    except Exception as e:
+        user_joined = False
+
+    if user_joined:
         if first_use:
             await client.send_message(chat_id, 'Welcome to MovieTracker bot',
                                       buttons=start_buttons)

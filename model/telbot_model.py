@@ -75,15 +75,12 @@ class LatestData:
 @dataclass
 class Poster:
     url: str
-    info: str
-    size: int
+
 
     @staticmethod
     def from_dict(obj: Any):
         _url = str(obj.get("url"))
-        _info = str(obj.get("info"))
-        _size = int(obj.get("size"))
-        return Poster(_url, _info, _size)
+        return Poster(_url)
 
 
 @dataclass

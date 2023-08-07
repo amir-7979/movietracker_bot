@@ -2,17 +2,19 @@ import os
 from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.events import NewMessage, CallbackQuery
+from telethon.network import connection
 from telethon.sync import events
 import utilities
 from utilities.functions import user_start, check_user_sub, set_download_button, download_handler_type, find_method
 
-load_dotenv('scratch.env')
+load_dotenv('config.env')
 api_id = int(os.getenv('API_ID'))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
 bot_id = os.getenv("BOT_ID")
 utilities.variables.server_address = os.getenv("SERVER_ADDRESS")
-bot = TelegramClient('bot2', api_id, api_hash).start(bot_token=bot_token)
+bot = TelegramClient('bot3', api_id, api_hash, connection=connection.ConnectionTcpMTProxyRandomizedIntermediate,
+                        proxy=('p1.geeksecure.xyz', 443, 'dd509a7df7b16ab96e036634e2fd12d15b')).start(bot_token=bot_token)
 
 
 @bot.on(events.NewMessage(pattern="/start"))
