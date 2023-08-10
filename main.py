@@ -13,9 +13,8 @@ api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
 bot_id = os.getenv("BOT_ID")
 utilities.variables.server_address = os.getenv("SERVER_ADDRESS")
-bot = TelegramClient('bot3', api_id, api_hash, connection=connection.ConnectionTcpMTProxyRandomizedIntermediate,
-                        proxy=('p1.geeksecure.xyz', 443, 'dd509a7df7b16ab96e036634e2fd12d15b')).start(bot_token=bot_token)
-
+bot = TelegramClient('bot3', api_id, api_hash).start(bot_token=bot_token)
+#connection=connection.ConnectionTcpMTProxyRandomizedIntermediate, proxy=('p1.geeksecure.xyz', 443, 'dd509a7df7b16ab96e036634e2fd12d15b')
 
 @bot.on(events.NewMessage(pattern="/start"))
 async def start_command(event: NewMessage.Event):
